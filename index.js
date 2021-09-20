@@ -33,9 +33,10 @@ const
 	],
 
 	löremIpsum = (
-		numberOfParagraphs = 1,
-		sentencesPerParagraph = 10,
-		maxSentenceLength = 10, {
+		{
+			numberOfParagraphs = 1,
+			sentencesPerParagraph = 10,
+			maxSentenceLength = 10,
 			minSentenceLength = 1,
 			isHeadline = false,
 			isName = false,

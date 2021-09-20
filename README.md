@@ -1,5 +1,15 @@
 # lörem ipsum
-Lörem Ipsum - generated faux Swedish for the masses! Works with selected text nodes. Comes with a multitude of options:
+Lörem Ipsum - generated faux Swedish for the masses! 
+
+Usage: 
+```
+npm install loerem
+
+import lörem from "loerem";
+console.log(lörem());
+```
+
+Comes with a multitude of options:
 
 - Number of paragraphs generated
 - Sentences per paragraph

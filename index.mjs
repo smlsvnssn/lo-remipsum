@@ -40,8 +40,8 @@ const löremIpsum = ({
 	const k = 'bdfghjklmnprstv',
 		v = 'aouåeiyäö',
 		lörem = 'Lörem ipsum ',
-		neologismer = (o => o.prefix.flatMap(p => o.suffix.map(s => p + s)))(
-			akademiska,
+		neologismer = akademiska.prefix.flatMap(p =>
+			akademiska.suffix.map(s => p + s),
 		),
 		// add random syllables for variation
 		syllables = Array(50)

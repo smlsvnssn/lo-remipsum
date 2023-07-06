@@ -19,6 +19,10 @@ const random = (min, max, float = false) => {
 		: Math.floor(Math.random() * (max - min)) + min
 }
 
+const neologismer = akademiska.prefix.flatMap(p =>
+	akademiska.suffix.map(s => p + s),
+)
+
 const löremIpsum = ({
 	numberOfParagraphs = 1,
 	sentencesPerParagraph = 10,
@@ -40,9 +44,6 @@ const löremIpsum = ({
 	const k = 'bdfghjklmnprstv',
 		v = 'aouåeiyäö',
 		lörem = 'Lörem ipsum ',
-		neologismer = akademiska.prefix.flatMap(p =>
-			akademiska.suffix.map(s => p + s),
-		),
 		// add random syllables for variation
 		syllables = Array(50)
 			.fill(0)
@@ -75,7 +76,7 @@ const löremIpsum = ({
 		// reduce probability of one word sentences (but not 0)
 		max = max < 2 ? random(minSentenceLength, maxSentenceLength + 1) : max
 
-		for (let n of Array(max)) {
+		for (let n of Array(max).keys()) {
 			s += getWord()
 			// add commas or colons
 			s +=
@@ -85,10 +86,8 @@ const löremIpsum = ({
 						: ': '
 					: ' '
 			// add conjunctions
-			if (n > 0 && n < max - 1)
-				s += random(3)
-					? ''
-					: konjunktioner[random(konjunktioner.length)] + ' '
+			if (n > 0 && n < max - 1 && !random(3))
+				s += konjunktioner[random(konjunktioner.length)] + ' '
 		}
 		// Make it a sentence
 		return (
@@ -97,6 +96,7 @@ const löremIpsum = ({
 			(isHeadline ? '' : '. ')
 		)
 	}
+
 	const getParagraph = () => {
 		let p = ''
 

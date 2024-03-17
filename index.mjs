@@ -1,4 +1,4 @@
-import nyord from './lists/nyord.mjs'
+import nyord from 'nyord'
 import buzz from './lists/buzz.mjs'
 import namn from './lists/namn.mjs'
 import akademiska from './lists/akademiska.mjs'

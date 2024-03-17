@@ -5,11 +5,18 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  nyord:
+    specifier: ^1.0.2
+    version: 1.0.2
   typescript:
     specifier: ^5.2.2
     version: 5.2.2
 
 packages:
+
+  /nyord@1.0.2:
+    resolution: {integrity: sha512-urQR9hUaIoL/hW7g0jxbO35eaT/1vT2+XnG+iBzARrxmMflq3EStKnypTmwvR24PIsmcw/gbL5Hd323GcNF02A==}
+    dev: false
 
   /typescript@5.2.2:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}

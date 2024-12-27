@@ -1,25 +1,32 @@
-lockfileVersion: '6.0'
+lockfileVersion: '9.0'
 
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  nyord:
-    specifier: ^1.0.2
-    version: 1.0.2
-  typescript:
-    specifier: ^5.2.2
-    version: 5.2.2
+importers:
+
+  .:
+    dependencies:
+      nyord:
+        specifier: ^1.0.3
+        version: 1.0.3
+      typescript:
+        specifier: ^5.7.2
+        version: 5.7.2
 
 packages:
 
-  /nyord@1.0.2:
-    resolution: {integrity: sha512-urQR9hUaIoL/hW7g0jxbO35eaT/1vT2+XnG+iBzARrxmMflq3EStKnypTmwvR24PIsmcw/gbL5Hd323GcNF02A==}
-    dev: false
+  nyord@1.0.3:
+    resolution: {integrity: sha512-xVlFBWrCLho5GdlGMPmo/ODM7tI8dwqsY8pXU8MqlLdOjW8V72Ec0/tExf058OQGzx6NGn4lGCFuOxHB8pRJ8Q==}
 
-  /typescript@5.2.2:
-    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+  typescript@5.7.2:
+    resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
     engines: {node: '>=14.17'}
     hasBin: true
-    dev: false
+
+snapshots:
+
+  nyord@1.0.3: {}
+
+  typescript@5.7.2: {}

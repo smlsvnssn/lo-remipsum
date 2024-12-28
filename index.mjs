@@ -43,12 +43,7 @@ const löremIpsum = ({
 } = {}) => {
 	const k = 'bdfghjklmnprstv',
 		v = 'aouåeiyäö',
-		lörem = 'Lörem ipsum ',
-		// add random syllables for variation
-		syllables = Array(50)
-			.fill(0)
-			.map(() => k[random(k.length)] + v[random(v.length)]),
-		wrapWithP = numberOfParagraphs > 1 || alwaysWrapParagraph
+		lörem = 'Lörem ipsum '
 
 	const getName = () =>
 		`${random() ? namn.k[random(100)] : namn.m[random(100)]} ${
@@ -68,6 +63,8 @@ const löremIpsum = ({
 			  (random(5) ? '' : mid[random(mid.length)]) +
 			  (random(10) ? '' : mid[random(mid.length)]) +
 			  (random(15) ? '' : mid[random(mid.length)]) +
+			  (random(25) ? '' : mid[random(mid.length)]) +
+			  (random(30) ? '' : mid[random(mid.length)]) +
 			  suffix[random(suffix.length)]
 
 	const getSentence = () => {
@@ -116,6 +113,13 @@ const löremIpsum = ({
 		// wrap if more than one paragraphs
 		return wrapWithP ? paragraphStartWrap + p + paragraphEndWrap : p
 	}
+
+	// add random syllables for variation
+	let syllables = Array(100)
+		.keys()
+		.map(() => k[random(k.length)] + v[random(v.length)])
+
+	let wrapWithP = numberOfParagraphs > 1 || alwaysWrapParagraph
 
 	let pre = prefix,
 		mid = fonem,

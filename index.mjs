@@ -4,152 +4,136 @@ import namn from './lists/namn.mjs'
 import akademiska from './lists/akademiska.mjs'
 import { prefix, suffix, fonem, konjunktioner } from './lists/smådelar.mjs'
 
-const random = (min, max, float = false) => {
-	// max can be omitted
-	float = typeof max === 'boolean' ? max : float
-	;[min, max] =
-		max === undefined || typeof max === 'boolean'
-			? // with no parameters, defaults to 0 or 1
-			  min === undefined
-				? [0, 2]
-				: [0, +min]
-			: [+min, +max]
-	return float
-		? Math.random() * (max - min) + min
-		: Math.floor(Math.random() * (max - min)) + min
+const random = (min, max) => {
+  ;[min, max] =
+    max === undefined ?
+      min === undefined ?
+        [0, 2]
+      : [0, +min]
+    : [+min, +max]
+
+  return Math.floor(Math.random() * (max - min)) + min
 }
 
-const neologismer = akademiska.prefix.flatMap(p =>
-	akademiska.suffix.map(s => p + s),
+const sample = arr => arr[random(arr.length)]
+
+const times = (n, f) =>
+  Array(n)
+    .fill(0)
+    .map((_, i) => f(i))
+
+const capitalise = s => s[0].toUpperCase() + s.slice(1)
+
+let neologismer = akademiska.prefix.flatMap(p =>
+  akademiska.suffix.map(s => p + s),
 )
 
+let consonants = 'bdfghjklmnprstv'
+let vowels = 'aouåeiyäö'
+let lörem = 'Lörem ipsum '
+
 const löremIpsum = ({
-	numberOfParagraphs = 1,
-	sentencesPerParagraph = 10,
-	maxSentenceLength = 10,
-	minSentenceLength = 1,
-	isHeadline = false,
-	isName = false,
-	nyordFrequency = 0.1,
-	neologismerFrequency = 0.05,
-	namnFrequency = 0,
-	buzzFrequency = 0,
-	useLörem = true,
-	punchline = 'Du kan vara drabbad.',
-	wrapInDiv = false,
-	paragraphStartWrap = '<p>',
-	paragraphEndWrap = '</p>',
-	alwaysWrapParagraph = false,
+  numberOfParagraphs = 1,
+  sentencesPerParagraph = 10,
+  maxSentenceLength = 10,
+  minSentenceLength = 1,
+  isHeadline = false,
+  isName = false,
+  nyordFrequency = 0.1,
+  neologismerFrequency = 0.05,
+  namnFrequency = 0,
+  buzzFrequency = 1,
+  useLörem = true,
+  punchline = 'Du kan vara drabbad.',
+  wrapInDiv = false,
+  paragraphStartWrap = '<p>',
+  paragraphEndWrap = '</p>',
+  alwaysWrapParagraph = false,
 } = {}) => {
-	const k = 'bdfghjklmnprstv',
-		v = 'aouåeiyäö',
-		lörem = 'Lörem ipsum '
+  // add random syllables for variation
+  let syllables = times(100, () => sample(consonants) + sample(vowels))
 
-	const getName = () =>
-		`${random() ? namn.k[random(100)] : namn.m[random(100)]} ${
-			namn.e[random(100)]
-		}`
+  // add fonem thrice so as not to sound too pompous.
+  let pre = [
+    ...prefix,
+    ...syllables,
+    ...vowels.split(''),
+    ...fonem,
+    ...fonem,
+    ...fonem,
+  ]
 
-	const getWord = () =>
-		Math.random() < nyordFrequency
-			? nyord[random(nyord.length)]
-			: Math.random() < neologismerFrequency
-			? neologismer[random(neologismer.length)]
-			: Math.random() < buzzFrequency
-			? buzz[random(buzz.length)]
-			: Math.random() < namnFrequency
-			? getName()
-			: pre[random(pre.length)] +
-			  (random(5) ? '' : mid[random(mid.length)]) +
-			  (random(10) ? '' : mid[random(mid.length)]) +
-			  (random(15) ? '' : mid[random(mid.length)]) +
-			  (random(25) ? '' : mid[random(mid.length)]) +
-			  (random(30) ? '' : mid[random(mid.length)]) +
-			  suffix[random(suffix.length)]
+  let mid = [...fonem, ...syllables]
 
-	const getSentence = () => {
-		let max = random(minSentenceLength, maxSentenceLength + 1),
-			s = ''
-		// reduce probability of one word sentences (but not 0)
-		max = max < 2 ? random(minSentenceLength, maxSentenceLength + 1) : max
+  useLörem = isName ? false : true
 
-		for (let n of Array(max).keys()) {
-			s += getWord()
-			// add commas or colons
-			s +=
-				n > 0 && n < max - 1 && !random(6)
-					? random(8)
-						? ', '
-						: ': '
-					: ' '
-			// add conjunctions
-			if (n > 0 && n < max - 1 && !random(3))
-				s += konjunktioner[random(konjunktioner.length)] + ' '
-		}
-		// Make it a sentence
-		return (
-			s.slice(0, 1).toUpperCase() +
-			s.slice(1, -1) +
-			(isHeadline ? '' : '. ')
-		)
-	}
+  const getName = () =>
+    `${random() ? sample(namn.k) : sample(namn.m)} ${sample(namn.e)}`
 
-	const getParagraph = () => {
-		let p = ''
+  const getWord = () =>
+    Math.random() < nyordFrequency ? sample(nyord)
+    : Math.random() < neologismerFrequency ? sample(neologismer)
+    : Math.random() < buzzFrequency ? sample(buzz)
+    : Math.random() < namnFrequency ? getName()
+    : sample(pre) +
+      (random(5) ? '' : sample(mid)) +
+      (random(10) ? '' : sample(mid)) +
+      (random(15) ? '' : sample(mid)) +
+      (random(25) ? '' : sample(mid)) +
+      (random(30) ? '' : sample(mid)) +
+      sample(suffix)
 
-		if (isName) p += getName()
-		else {
-			for (let i of Array(sentencesPerParagraph)) p += getSentence()
+  // add commas or colons
+  const maybeComma = (n, len) =>
+    n > 0 && n < len - 1 && !random(6) ?
+      random(8) ? ','
+      : ':'
+    : ''
 
-			// add punchline
-			if (maxSentenceLength > 3)
-				p += random(15)
-					? ''
-					: isHeadline
-					? '. ' + punchline + ''
-					: punchline + ' '
-		}
+  const maybeConjunction = (n, len) =>
+    n > 0 && n < len - 1 && !random(3) ? ` ${sample(konjunktioner)}` : ''
 
-		// wrap if more than one paragraphs
-		return wrapWithP ? paragraphStartWrap + p + paragraphEndWrap : p
-	}
+  // reduce probability of one word sentences (but not 0)
+  const getSentenceLength = (
+    len = random(minSentenceLength, maxSentenceLength + 1),
+  ) => (len < 2 ? random(minSentenceLength, maxSentenceLength + 1) : len)
 
-	// add random syllables for variation
-	let syllables = Array(100)
-		.keys()
-		.map(() => k[random(k.length)] + v[random(v.length)])
+  const getSentence = (len = getSentenceLength()) =>
+    capitalise(
+      times(
+        len,
+        n => getWord() + maybeComma(n, len) + maybeConjunction(n, len),
+      ).join(' '),
+    ) + (isHeadline ? '' : '.')
 
-	let wrapWithP = numberOfParagraphs > 1 || alwaysWrapParagraph
+  const maybeWrapParagraph = p =>
+    numberOfParagraphs > 1 || alwaysWrapParagraph ?
+      paragraphStartWrap + p + paragraphEndWrap
+    : p
 
-	let pre = prefix,
-		mid = fonem,
-		s = ''
+  const maybeLörem = (isFirstP, s) =>
+    useLörem && maxSentenceLength > 3 && isFirstP ?
+      lörem + s[0].toLowerCase() + s.slice(1)
+    : s
 
-	if (isName) useLörem = false
+  const maybePunchline = () =>
+    maxSentenceLength > 3 ?
+      random(15) ? ''
+      : `${isHeadline ? '.' : ''} ${punchline}`
+    : ''
 
-	// add mid thrice so as not to sound too pompous.
-	pre = [...pre, ...syllables, ...v.split(''), ...mid, ...mid, ...mid]
-	mid = [...mid, ...syllables]
+  const getParagraph = n =>
+    maybeWrapParagraph(
+      isName ? getName() : (
+        times(sentencesPerParagraph, _ => maybeLörem(!n, getSentence())).join(
+          ' ',
+        ) + maybePunchline()
+      ),
+    )
 
-	// get paragraphs
-	for (let i of Array(numberOfParagraphs)) s += getParagraph()
+  const maybeWrapInDiv = s => (wrapInDiv ? `<div>${s}</div>` : s)
 
-	// add lörem
-	if (useLörem && maxSentenceLength > 3)
-		s = wrapWithP
-			? s.slice(0, paragraphStartWrap.length) +
-			  lörem +
-			  s
-					.slice(
-						paragraphStartWrap.length,
-						paragraphStartWrap.length + 1,
-					)
-					.toLowerCase() +
-			  s.slice(paragraphStartWrap.length + 1)
-			: lörem + s.slice(0, 1).toLowerCase() + s.slice(1)
-
-	// optional wrap
-	return wrapInDiv ? '<div>' + s + '</div>' : s
+  return maybeWrapInDiv(times(numberOfParagraphs, getParagraph).join(''))
 }
 
 export default löremIpsum

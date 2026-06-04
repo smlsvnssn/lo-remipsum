@@ -9,16 +9,16 @@ importers:
   .:
     dependencies:
       nyord:
-        specifier: ^1.0.3
-        version: 1.0.3
+        specifier: latest
+        version: 1.0.4
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
 
 packages:
 
-  nyord@1.0.3:
-    resolution: {integrity: sha512-xVlFBWrCLho5GdlGMPmo/ODM7tI8dwqsY8pXU8MqlLdOjW8V72Ec0/tExf058OQGzx6NGn4lGCFuOxHB8pRJ8Q==}
+  nyord@1.0.4:
+    resolution: {integrity: sha512-rZ+fzv+OtDAa9f+X0eh1sooZXSKwOzdxNbe8BBw/mokFqxdgygm+P3hGWC93UAjZkCMtwvnazNtYXcLNnq/QsA==}
 
   typescript@5.7.2:
     resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
@@ -27,6 +27,6 @@ packages:
 
 snapshots:
 
-  nyord@1.0.3: {}
+  nyord@1.0.4: {}
 
   typescript@5.7.2: {}

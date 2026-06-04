@@ -21,7 +21,7 @@
 	},
 	"homepage": "https://github.com/smlsvnssn/lo-remipsum#readme",
 	"dependencies": {
-		"nyord": "^1.0.3",
+		"nyord": "latest",
 		"typescript": "^5.7.2"
 	}
 }

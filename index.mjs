@@ -4,7 +4,7 @@ import namn from './lists/namn.mjs'
 import akademiska from './lists/akademiska.mjs'
 import { prefix, suffix, fonem, konjunktioner } from './lists/smådelar.mjs'
 
-const random = (min, max) => {
+const rand = (min, max) => {
   ;[min, max] =
     max === undefined ?
       min === undefined ?
@@ -15,7 +15,7 @@ const random = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min
 }
 
-const sample = arr => arr[random(arr.length)]
+const sample = arr => arr[rand(arr.length)]
 
 const times = (n, f) =>
   Array(n)
@@ -42,7 +42,7 @@ const löremIpsum = ({
   nyordFrequency = 0.1,
   neologismerFrequency = 0.05,
   namnFrequency = 0,
-  buzzFrequency = 1,
+  buzzFrequency = 0,
   useLörem = true,
   punchline = 'Du kan vara drabbad.',
   wrapInDiv = false,
@@ -65,10 +65,10 @@ const löremIpsum = ({
 
   let mid = [...fonem, ...syllables]
 
-  useLörem = isName ? false : true
+  useLörem = isName ? false : useLörem
 
   const getName = () =>
-    `${random() ? sample(namn.k) : sample(namn.m)} ${sample(namn.e)}`
+    `${rand() ? sample(namn.k) : sample(namn.m)} ${sample(namn.e)}`
 
   const getWord = () =>
     Math.random() < nyordFrequency ? sample(nyord)
@@ -76,27 +76,25 @@ const löremIpsum = ({
     : Math.random() < buzzFrequency ? sample(buzz)
     : Math.random() < namnFrequency ? getName()
     : sample(pre) +
-      (random(5) ? '' : sample(mid)) +
-      (random(10) ? '' : sample(mid)) +
-      (random(15) ? '' : sample(mid)) +
-      (random(25) ? '' : sample(mid)) +
-      (random(30) ? '' : sample(mid)) +
+      (rand(5) ? '' : sample(mid)) +
+      (rand(10) ? '' : sample(mid)) +
+      (rand(15) ? '' : sample(mid)) +
+      (rand(25) ? '' : sample(mid)) +
+      (rand(30) ? '' : sample(mid)) +
       sample(suffix)
 
-  // add commas or colons
   const maybeComma = (n, len) =>
-    n > 0 && n < len - 1 && !random(6) ?
-      random(8) ? ','
+    n > 0 && n < len - 1 && !rand(6) ?
+      rand(8) ? ','
       : ':'
     : ''
 
   const maybeConjunction = (n, len) =>
-    n > 0 && n < len - 1 && !random(3) ? ` ${sample(konjunktioner)}` : ''
+    n > 0 && n < len - 1 && !rand(3) ? ` ${sample(konjunktioner)}` : ''
 
   // reduce probability of one word sentences (but not 0)
-  const getSentenceLength = (
-    len = random(minSentenceLength, maxSentenceLength + 1),
-  ) => (len < 2 ? random(minSentenceLength, maxSentenceLength + 1) : len)
+  const getLen = () => rand(minSentenceLength, maxSentenceLength + 1)
+  const getSentenceLength = (len = getLen()) => (len < 2 ? getLen() : len)
 
   const getSentence = (len = getSentenceLength()) =>
     capitalise(
@@ -118,7 +116,7 @@ const löremIpsum = ({
 
   const maybePunchline = () =>
     maxSentenceLength > 3 ?
-      random(15) ? ''
+      rand(15) ? ''
       : `${isHeadline ? '.' : ''} ${punchline}`
     : ''
 

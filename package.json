@@ -1,27 +1,36 @@
 {
-	"name": "loerem",
-	"version": "1.0.11",
-	"description": "smlsvnssn",
-	"main": "index.mjs",
-	"scripts": {
-		"test": "test"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/smlsvnssn/lo-remipsum.git"
-	},
-	"keywords": [
-		"lorem",
-		"ipsum"
-	],
-	"author": "smlsvnssn",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/smlsvnssn/lo-remipsum/issues"
-	},
-	"homepage": "https://github.com/smlsvnssn/lo-remipsum#readme",
-	"dependencies": {
-		"nyord": "latest",
-		"typescript": "^5.7.2"
-	}
+  "name": "loerem",
+  "version": "1.0.11",
+  "description": "smlsvnssn",
+  "main": "index.mjs",
+  "types": "index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./index.d.mts",
+      "default": "./index.mjs"
+    }
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smlsvnssn/lo-remipsum.git"
+  },
+  "keywords": [
+    "lorem",
+    "ipsum"
+  ],
+  "author": "smlsvnssn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smlsvnssn/lo-remipsum/issues"
+  },
+  "homepage": "https://github.com/smlsvnssn/lo-remipsum#readme",
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "nyord": "latest"
+  }
 }

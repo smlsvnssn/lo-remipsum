@@ -11,7 +11,7 @@ console.log(
 		nyordFrequency: 0,
 		neologismerFrequency: 0,
 		namnFrequency: 0,
-		buzzFrequency: .2,
+		buzzFrequency: .5,
 		useLörem: true,
 		punchline: 'Du kan vara drabbad.',
 		wrapInDiv: false,

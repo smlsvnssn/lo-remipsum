@@ -58,9 +58,7 @@ const löremIpsum = ({
     ...prefix,
     ...syllables,
     ...vowels.split(''),
-    ...fonem,
-    ...fonem,
-    ...fonem,
+    ...times(3, () => fonem).flat(),
   ]
 
   let mid = [...fonem, ...syllables]
@@ -109,8 +107,8 @@ const löremIpsum = ({
       paragraphStartWrap + p + paragraphEndWrap
     : p
 
-  const maybeLörem = (isFirstP, s) =>
-    useLörem && maxSentenceLength > 3 && isFirstP ?
+  const maybeLörem = (isFirstParagraph, s) =>
+    useLörem && maxSentenceLength > 3 && isFirstParagraph ?
       lörem + s[0].toLowerCase() + s.slice(1)
     : s
 
@@ -123,9 +121,8 @@ const löremIpsum = ({
   const getParagraph = n =>
     maybeWrapParagraph(
       isName ? getName() : (
-        times(sentencesPerParagraph, _ => maybeLörem(!n, getSentence())).join(
-          ' ',
-        ) + maybePunchline()
+        maybeLörem(!n, times(sentencesPerParagraph, () => getSentence()).join(' ')) +
+          maybePunchline()
       ),
     )
 
